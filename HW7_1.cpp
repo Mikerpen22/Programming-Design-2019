@@ -3,14 +3,30 @@ using namespace std;
 
 void cinloop(int array[], int a);
 int totalMachineCost(int machine[], int turnOnCost[], int maxPotential[], int productPerDay1[], int productPerDay2[], int totalDay);
+
+// GOAL: fill out productPerDay/purchasePerDay s.t. total cost is minimized
+void planner(int** productPerDay, int* purchasePerDay, int* demands, int* purchaseCosts, int* stockCost)
+{
+
+}
+
+
 int main(){
     int workstate = 0, totalDay = 0, machine[2] = {0}, turnOnCost[2] = {0}, demandCost[2] = {0}, maxPotential[2] = {0}, Rate[2] = {0}, 
     stockCost[3] = {0}, stockAmount[3] = {0};
     cin >> workstate >> totalDay;
     int * demands = new int[totalDay];
     int * purchaseCosts = new int[totalDay];
+
+    // 2-D array(?)
+    // int** productPerDay = new int*[workstate];
+    // for(int i = 0; i < workstate; i++)
+    // {
+    // 	productPerDay[i] = new int[totalDay];
+    // }
     int * productPerDay1 = new int[totalDay];
     int * productPerDay2 = new int[totalDay];
+
     int * purchasePerDay = new int[totalDay];
     cinloop(machine, 2);
     cinloop(turnOnCost, 2);
@@ -21,8 +37,13 @@ int main(){
     cinloop(stockAmount, 3);
     cinloop(demands, totalDay);
     cinloop(purchaseCosts, totalDay);
+
+    // 2-D array(?)
+    // for(int i = 0; i < workstate; i++)
+    // 	cinloop(productPerDay[i], totalDay);
     cinloop(productPerDay1, totalDay);
     cinloop(productPerDay2, totalDay);
+
     cinloop(purchasePerDay, totalDay);
 
     int result = 0;
