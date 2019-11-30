@@ -1,8 +1,8 @@
 //
 //  main.cpp
-//  PD108-1_HW07-Problem 2
+//  PD108-1_HW07-Problem 1
 //
-//  Created by 藍行知 on 2019/11/14.
+//  Created by 藍行知 on 2019/11/7.
 //  Copyright © 2019 藍行知. All rights reserved.
 //
 
@@ -51,7 +51,7 @@ int main()
         cout << "-1";
     else
     {
-        for(int q = 0; q < t; q++)
+        for(int q = 0; q < t; q++)//計算各種成本
         {
             if (dailyproduction1[q] % Blimit[0] == 0)
                 machineoncost += coston[0] * (dailyproduction1[q] / Blimit[0]);
@@ -77,21 +77,21 @@ int main()
 int checksatisfied(int T, int M[], int B[], int sco[], int In[], int D[], int dp1[], int dp2[], int db[])
 {
     int unusedproduction1 = 0, unusedproduction2 = 0, unusedmaterial = 0;
-    if (In[1] + dp1[0] >= dp2[0] * R[1] && In[2] + dp2[0] >= D[0])//第一個工作站的生產量 -> 提供給第二個工作站，這是第一天
+    if (In[2] + dp2[0] >= D[0])//第一個工作站的生產量 -> 提供給第二個工作站，這是第一天
     {
-        unusedproduction1 = dp1[0] + In[1] - dp2[0] * R[1];
+        unusedproduction1 = dp1[0] + In[1] - dp2[0];
         unusedproduction2 = dp2[0] + In[2] - D[0];
-        productionsavingcost[0] = unusedproduction1 * sco[1];
-        productionsavingcost[1] = unusedproduction2 * sco[2];
+        productionsavingcost[0] += unusedproduction1 * sco[1];
+        productionsavingcost[1] += unusedproduction2 * sco[2];
     }
     else
         return -1;
     
-    for (int n = 1; n < T; n++)
+    for (int n = 1; n < T; n++)//後幾天
     {
-        if (unusedproduction1 + dp1[n] >= dp2[n] * R[1] && unusedproduction2 + dp2[n] >= D[n])
+        if (unusedproduction2 + dp2[n] >= D[n])
         {
-            unusedproduction1 += dp1[n] - dp2[n] * R[1];
+            unusedproduction1 += dp1[n] - dp2[n];
             unusedproduction2 += dp2[n] - D[n];
             productionsavingcost[0] += unusedproduction1 * sco[1];
             productionsavingcost[1] += unusedproduction2 * sco[2];
@@ -100,28 +100,28 @@ int checksatisfied(int T, int M[], int B[], int sco[], int In[], int D[], int dp
             return -1;
     }
     
-    if (In[0] + db[0] >= dp1[0] * R[0]) //首日原料的計算、原料儲存
+    if (In[0] + db[0] >= dp1[0]) //首日原料的計算、原料儲存
     {
-        unusedmaterial = In[0] + db[0] - dp1[0] * R[0];
+        unusedmaterial = In[0] + db[0] - dp1[0];
         materialsavingcost += unusedmaterial * sco[0];
     }
     else
         return -1;
     
-    for (int o = 1; o < T; o++)
+    for (int o = 1; o < T; o++)//後幾天
     {
-        if (unusedmaterial + db[o] >= dp1[o] * R[0])
+        if (unusedmaterial + db[o] >= dp1[o])
         {
-            unusedmaterial += db[o] - dp1[o] * R[0];
-            materialsavingcost += unusedmaterial * sco[0];
+            unusedmaterial += db[o] - dp1[o];
+            materialsavingcost += unusedmaterial *sco[0];
         }
         else
             return -1;
     }
-    for (int p = 0; p < T; p++)
+    for (int p = 0; p < T; p++)//計算是否超過生產上限
     {
         if(M[0] * B[0] < dp1[p] || M[1] * B[1] < dp2[p])
             return -1;
     }
-    return 0;
+    return 1;
 }
