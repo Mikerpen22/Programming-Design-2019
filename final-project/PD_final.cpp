@@ -39,7 +39,7 @@ public:
         {
             return false;
         }
-        if (suggest_metric[2] < 5 && risk == 1)
+        if (suggest_metric[2] < 6 && risk == 1) //最高12分，最低0分，所以切0-5為低風險愛好者；另外，可呈現高風險者，一樣可推薦低風險股，故如此判斷
         {
             return false;
         }
