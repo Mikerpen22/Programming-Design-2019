@@ -47,11 +47,7 @@ public:
         {
             return false;
         }
-        if (preferredIndustry[industry] == false)
-        {
-            return false;
-        }
-        if (suggest_metric[3] != growth)
+        if (preferredIndustry[industry] == false) //該股票所處產業未在使用者偏好中
         {
             return false;
         }
